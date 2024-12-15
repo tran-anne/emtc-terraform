@@ -56,3 +56,14 @@ resource "github_branch" "staging_branches" {
   repository = github_repository.repos[each.key].name
   branch     = each.value.branch_name
 }
+
+resource "github_repository_file" "this" {
+  for_each = local.files
+
+  repository          = github_repository.this.name
+  branch              = "main"
+  file                = each.key
+  content             = each.value.content
+  commit_message      = "Managed by Terraform"
+  overwrite_on_create = true
+}
