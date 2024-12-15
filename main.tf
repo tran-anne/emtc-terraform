@@ -28,9 +28,14 @@ resource "github_branch" "frontend_development" {
 }
 
 resource "github_repository" "this" {
-  name               = "${var.project}-${var.env}"
-  description        = "${var.project} ${var.env} repository."
-  auto_init          = var.auto_init
-  visibility         = var.env == "dev" ? "private" : "public"
-  gitignore_template = var.project == "frontend" ? "Node" : (var.project == "backend" ? "Python" : "Terraform")
+  name               = local.name
+  description        = local.description
+  auto_init          = local.auto_init
+  visibility         = local.visibility
+  gitignore_template = local.gitignore_template
+}
+
+resource "github_branch" "staging" {
+  repository = github_repository.this.name
+  branch     = local.branch_name
 }
