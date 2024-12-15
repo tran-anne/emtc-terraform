@@ -31,6 +31,6 @@ resource "github_repository" "this" {
   name               = "${var.project}-${var.env}"
   description        = "${var.project} ${var.env} repository."
   auto_init          = var.auto_init
-  private = var.env == "dev" ? true : false
-  gitignore_template = var.project == "frontend" ? "Node" : {var.project == "backend" ? "Python"}
+  private            = var.env == "dev" ? true : false
+  gitignore_template = var.project == "frontend" ? "Node" : (var.project == "backend" ? "Python" : "Terraform")
 }
